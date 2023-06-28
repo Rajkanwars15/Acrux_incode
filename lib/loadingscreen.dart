@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'loginscreen.dart';
+
 class LoadingScreen extends StatelessWidget {
   static const String routeName = '/loading';
 
-  const LoadingScreen({super.key});
+  const LoadingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +14,22 @@ class LoadingScreen extends StatelessWidget {
       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     });
 
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Loading...'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/acrux.png',
+              width: 150,
+              height: 150,
+              // You can customize the width and height as per your logo's dimensions
+            ),
+            const SizedBox(height: 16),
+            const Text('Loading...'),
+          ],
+        ),
       ),
-    );l
+    );
   }
 }
