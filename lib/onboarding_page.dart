@@ -12,18 +12,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   List<OnboardingScreen> screens = [
     const OnboardingScreen(
-      title: 'Welcome to TransitLink',
-      description: 'Your ultimate one-tap solution for seamless navigation.',
+      title: 'Automated Trip Planning',
+      description:
+      '1. Automated trip planning\nTrip routes are suggested to the user so that they can pick the methods of transportation.',
       imagePath: 'assets/images/onboarding1.png',
     ),
     const OnboardingScreen(
-      title: 'Automated Trip Planning',
-      description: 'Let TransitLink suggest the best routes for your journey.',
+      title: 'Intelligent Suggestions',
+      description:
+      '2. Intelligent Suggestions\nAutomatically guides you through the methods of transportation so that there is no ambiguity faced from user end.',
       imagePath: 'assets/images/onboarding2.png',
     ),
     const OnboardingScreen(
       title: 'Hassle-Free Integration',
-      description: 'Pay once and never worry about tickets or passes.',
+      description:
+      '3. Hassle Free Integration\nUsers will be presented with one click solution payment method so that users can pay once and never worry about tickets or passes.',
       imagePath: 'assets/images/onboarding3.png',
     ),
   ];
@@ -37,13 +40,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
         itemBuilder: (context, index) {
           return Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(screens[index].imagePath),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              Image.asset(
+                screens[index].imagePath,
+                fit: BoxFit.cover,
+                height: double.infinity,
+                width: double.infinity,
+                alignment: Alignment.center,
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -56,9 +58,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       if (index < screens.length - 1)
                         TextButton(
                           onPressed: () {
-                            _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease,
+                            Navigator.pushReplacementNamed(
+                              context,
+                              LoginScreen.routeName,
                             );
                           },
                           child: Text('Skip'),
@@ -67,7 +69,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         onPressed: () {
                           if (index < screens.length - 1) {
                             _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
+                              duration:
+                              const Duration(milliseconds: 300),
                               curve: Curves.ease,
                             );
                           } else {
@@ -77,7 +80,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             );
                           }
                         },
-                        child: Text(index < screens.length - 1 ? 'Next' : 'Get Started'),
+                        child:
+                        Text(index < screens.length - 1 ? 'Next' : 'Get Started'),
                       ),
                     ],
                   ),

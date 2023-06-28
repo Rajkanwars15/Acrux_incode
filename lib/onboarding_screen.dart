@@ -5,11 +5,12 @@ class OnboardingScreen extends StatelessWidget {
   final String description;
   final String imagePath;
 
-  const OnboardingScreen({super.key,
+  const OnboardingScreen({
+    Key? key,
     required this.title,
     required this.description,
     required this.imagePath,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
