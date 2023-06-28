@@ -1,26 +1,3 @@
-// import 'package:flutter/material.dart';
-// class DashboardScreen extends StatefulWidget {
-//   static const routeName = '/loading';
-
-//   const DashboardScreen({super.key});
-
-//   @override
-//   State<DashboardScreen> createState() => _DashboardScreenState();
-// }
-
-// class _DashboardScreenState extends State<DashboardScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Loading'),
-//       ),
-//       body: const Center(
-//         child: Text('Loading Screen'),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -33,38 +10,105 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  String username = 'John Doe';
-  String password = '********';
-  String cityName = 'New York';
+  bool readyToWalk = false;
+  bool readyToUseTransport = false;
+  String destination = '';
+
+  void handleWalkCheckbox(bool? value) {
+    setState(() {
+      readyToWalk = value ?? false;
+    });
+  }
+
+  void handleTransportCheckbox(bool? value) {
+    setState(() {
+      readyToUseTransport = value ?? false;
+    });
+  }
+
+  void handlePlanTrip() {
+    // Implement your logic here for handling the "Plan Trip" button press
+    // You can access the values of the checkboxes (readyToWalk and readyToUseTransport) here
+    // You can also access the entered destination (destination) here
+
+    // Example logic for route calculation and map integration
+    String routeInstructions = '';
+    // Perform route calculation using entered destination and selected options
+    // ...
+    // Display the calculated route on the map
+    // ...
+
+    // Display the route instructions
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Route Instructions'),
+          content: Text(routeInstructions),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 16.0),
-              Text(
-                'Username: $username',
-                style: const TextStyle(fontSize: 18.0),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                'Password: $password',
-                style: const TextStyle(fontSize: 18.0),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                'City: $cityName',
-                style: const TextStyle(fontSize: 18.0),
-              ),
-            ],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              // TODO: Implement user profile button functionality
+            },
           ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 16.0),
+            TextField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your destination',
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  destination = value;
+                });
+              },
+            ),
+            const SizedBox(height: 16.0),
+            Text(
+              'Current Location: XYZ City',
+              style: TextStyle(fontSize: 18),
+            ),
+            CheckboxListTile(
+              title: const Text('I am ready to walk'),
+              value: readyToWalk,
+              onChanged: handleWalkCheckbox,
+            ),
+            CheckboxListTile(
+              title: const Text('I am ready to use public transport'),
+              value: readyToUseTransport,
+              onChanged: handleTransportCheckbox,
+            ),
+            ElevatedButton(
+              onPressed: handlePlanTrip,
+              child: const Text('Plan Trip'),
+            ),
+          ],
         ),
       ),
     );
