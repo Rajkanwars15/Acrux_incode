@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'loginscreen.dart';
+import 'onboarding_page.dart';
 
 class LoadingScreen extends StatelessWidget {
   static const String routeName = '/loading';
@@ -9,9 +9,12 @@ class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Simulate a delay of 3 seconds
-    Future.delayed(const Duration(seconds: 1), () {
-      // Navigate to the desired screen after the delay
-      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    Future.delayed(const Duration(seconds: 3), () {
+      // Navigate to the onboarding page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OnboardingPage()),
+      );
     });
 
     return Scaffold(
