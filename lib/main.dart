@@ -25,7 +25,7 @@ class TransitlinkApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Transitlink',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
         ),
         initialRoute: LoadingScreen.routeName,
         onGenerateRoute: (settings) {
