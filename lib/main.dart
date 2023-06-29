@@ -5,6 +5,7 @@ import 'PaymentScreen.dart';
 import 'DashboardScreen.dart';
 import 'loadingscreen.dart';
 import 'loginscreen.dart';
+import 'user_profile_page.dart'; // Import the user profile page
 
 void main() => runApp(const TransitlinkApp());
 
@@ -31,15 +32,12 @@ class TransitlinkApp extends StatelessWidget {
             return MaterialPageRoute(builder: (_) => const UserPortalScreen());
           case DashboardScreen.routeName:
             return MaterialPageRoute(builder: (_) => const DashboardScreen());
+          case UserProfilePage.routeName: // Add the user profile page route
+            return MaterialPageRoute(builder: (_) => const UserProfilePage());
           default:
-            return MaterialPageRoute(builder: (_) =>const LoginScreen());
+            return MaterialPageRoute(builder: (_) => const LoginScreen());
         }
       },
     );
   }
 }
-
-
-
-
-

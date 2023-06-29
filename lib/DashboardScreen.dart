@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'user_profile_page.dart';
+
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/dashboard';
@@ -67,7 +69,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // TODO: Implement user profile button functionality
+              Navigator.pushNamed(context, UserProfilePage.routeName);
             },
           ),
         ],
