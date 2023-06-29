@@ -1,7 +1,9 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:tryin/user_profile_provider.dart';
 
 class UserProfilePage extends StatefulWidget {
-  static const routeName = '/userProfile';
+  static const routeName = '/user_profile';
 
   const UserProfilePage({Key? key}) : super(key: key);
 
@@ -10,92 +12,100 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  String? firstName;
-  String? lastName;
-  String? phoneNumber;
-  String? email;
-  String? profilePictureUrl; // You can store the URL or file path of the profile picture here
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _phoneNumberController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
 
-  void saveProfile() {
-    // Implement your logic here for saving the user profile
-    // You can access the entered values (firstName, lastName, phoneNumber, email) and the profile picture (profilePictureUrl) here
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _phoneNumberController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  void _saveUserProfile(BuildContext context) {
+    final firstName = _firstNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
+    final phoneNumber = _phoneNumberController.text.trim();
+    final email = _emailController.text.trim();
+
+    if (firstName.isNotEmpty && lastName.isNotEmpty && phoneNumber.isNotEmpty && email.isNotEmpty) {
+      // Set the user's profile using the provider
+      final userProfileProvider = Provider.of<UserProfileProvider>(context, listen: false);
+      userProfileProvider.setFirstName(firstName);
+      userProfileProvider.setLastName(lastName);
+      userProfileProvider.setPhoneNumber(phoneNumber);
+      userProfileProvider.setEmail(email);
+
+      Navigator.pop(context); // Go back to the previous screen
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please fill in all the fields.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProfileProvider = Provider.of<UserProfileProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Profile'),
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  // TODO: Implement profile picture selection functionality
-                },
-                child: CircleAvatar(
-                  radius: 64,
-                  backgroundImage: profilePictureUrl != null
-                      ? NetworkImage(profilePictureUrl!) // Display the profile picture if available
-                      : null,
-                  child: profilePictureUrl == null
-                      ? const Icon(Icons.person, size: 64) // Display a placeholder icon if no profile picture is available
-                      : null,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            TextFormField(
+            TextField(
+              controller: _firstNameController,
               decoration: const InputDecoration(
                 labelText: 'First Name',
               ),
-              onChanged: (value) {
-                setState(() {
-                  firstName = value;
-                });
-              },
             ),
-            const SizedBox(height: 8.0),
-            TextFormField(
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _lastNameController,
               decoration: const InputDecoration(
                 labelText: 'Last Name',
               ),
-              onChanged: (value) {
-                setState(() {
-                  lastName = value;
-                });
-              },
             ),
-            const SizedBox(height: 8.0),
-            TextFormField(
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _phoneNumberController,
               decoration: const InputDecoration(
                 labelText: 'Phone Number',
               ),
-              onChanged: (value) {
-                setState(() {
-                  phoneNumber = value;
-                });
-              },
             ),
-            const SizedBox(height: 8.0),
-            TextFormField(
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: saveProfile,
-              child: const Text('Save Profile'),
+              onPressed: () => _saveUserProfile(context),
+              child: const Text('Save'),
             ),
           ],
         ),

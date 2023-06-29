@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'user_profile_page.dart';
-
+import 'user_profile_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/dashboard';
@@ -62,9 +63,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final firstName = Provider.of<UserProfileProvider>(context).userProfile!.firstName;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: Text('Welcome $firstName'),
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
@@ -92,7 +95,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             const SizedBox(height: 16.0),
-            Text(
+            const Text(
               'Current Location: XYZ City',
               style: TextStyle(fontSize: 18),
             ),
