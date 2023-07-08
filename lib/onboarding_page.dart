@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'onboarding_screen.dart';
 import 'loginscreen.dart';
 
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class OnboardingPage extends StatefulWidget {
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
@@ -13,26 +16,60 @@ class _OnboardingPageState extends State<OnboardingPage> {
   List<OnboardingScreen> screens = [
     const OnboardingScreen(
       title: 'Automated Trip Planning',
-      description:
-      '\n We suggest trip routes to you so that you can pick your choice of methods of transportation.',
+      description: '\n We suggest trip routes to you so that you can pick your choice of methods of transportation.',
       imagePath: 'assets/images/onboarding1.png',
     ),
     const OnboardingScreen(
       title: 'Intelligent Suggestions',
-      description:
-      '\nWe automatically guides you through the methods of transportation so that you do not face ambiguity.',
+      description: '\nWe automatically guide you through the methods of transportation so that you do not face ambiguity.',
       imagePath: 'assets/images/onboarding2.png',
     ),
     const OnboardingScreen(
       title: 'Hassle-Free Integration',
-      description:
-      'One click solution payment method so that you can pay once and never worry about tickets or passes.',
+      description: 'One click solution payment method so that you can pay once and never worry about tickets or passes.',
       imagePath: 'assets/images/onboarding3.png',
     ),
   ];
 
+  bool _isFirstTime = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkFirstTime();
+  }
+
+  void _checkFirstTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstTime = prefs.getBool('first_time') ?? true;
+    setState(() {
+      _isFirstTime = isFirstTime;
+    });
+    if (!isFirstTime) {
+      _navigateToLoginScreen();
+    }
+  }
+
+  void _navigateToLoginScreen() {
+    Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+  }
+
+  void _completeOnboarding() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('first_time', false);
+    _navigateToLoginScreen();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_isFirstTime) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       body: PageView.builder(
         controller: _pageController,
@@ -79,12 +116,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 ),
               if (index == screens.length - 1)
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      LoginScreen.routeName,
-                    );
-                  },
+                  onPressed: _completeOnboarding,
                   child: const Text('Get Started'),
                 ),
             ],
