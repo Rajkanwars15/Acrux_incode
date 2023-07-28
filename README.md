@@ -1,5 +1,7 @@
 # Transitlink by Team ACRUX
 
+# THS PROJECT HAS BEEN SHUT DOWN IN DEVELOPMENT & ON GOOGLE CONSOLE. IT IS NO LONGER FUNCTIONAL AND IS NOT UNDER MAINTAINANCE AS OF NOW
+
 A one-stop app to plan everyday transit connecting users to the last mile. Choose if the user has a pet along, is open to walking/cycling/public transport to reduce users' travel costs as per their needs.
 
 ## This app has been developed for inCode2023. Any kind of plagiarism will invite legal action. If you are a fellow participant it is a sincere request to kindly appreciate the spirit of the competition
